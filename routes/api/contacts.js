@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-// const path = require("path");
-// const fs = require("fs/promises");
+
 const {
   listContacts,
   getContactById,
@@ -12,9 +11,9 @@ const {
 const {
   validationCreateContact,
   validationUpdateContact,
+  validationUpdateContactStatus,
 } = require("./validation");
 
-// const contactsPath = path.join(__dirname, "contacts.json");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -116,29 +115,5 @@ router.delete("/:contactId", async (req, res, next) => {
     next(error);
   }
 });
-
-// router.patch("/:contactId", async (req, res, next) => {
-//   try {
-//     const contact = await updateContact(req.params.contactId);
-//     console.log(contact);
-//     if (contact) {
-//       return res.json({
-//         status: "success",
-//         code: 200,
-//         data: {
-//           contact,
-//         },
-//       });
-//     } else {
-//       return res.status(404).json({
-//         status: "error",
-//         code: 404,
-//         message: "Not found",
-//       });
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 
 module.exports = router;

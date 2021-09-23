@@ -1,65 +1,52 @@
-const fs = require("fs/promises");
-// const contacts  = require("./contacts.json");
-const path = require("path");
-const { v4: uuidv4 } = require("uuid");
+const contacts = require("./schemas/contact");
 
-const contactsPath = path.join(__dirname, "contacts.json");
-
-const parsedContacts = async () => {
-  const contactsList = await fs.readFile(contactsPath, "utf8", (err) => {
-    if (err) throw err;
-  });
-  return JSON.parse(contactsList);
-};
-
-const listContacts = async () => {
-  return parsedContacts();
-};
-
-const getContactById = async (contactId) => {
-  const contacts = await parsedContacts();
-  console.log(contacts);
-  const contact = contacts.find(({ id }) => id === contactId);
-  return contact;
-};
-
-const removeContact = async (contactId) => {
-  const contacts = await parsedContacts();
-  const contact = contacts.find(({ id }) => id === contactId);
-  if (contact) {
-    const delContacts = contacts.filter((item) => item.id !== contactId);
-    await fs.writeFile(contactsPath, JSON.stringify(delContacts, null, 2));
+const listContacts = async (userId, query) => {
+  const { favorite = null, limit = 20, offset = 0 } = query;
+  const optionsSearch = { owner: userId };
+  if (favorite !== null) {
+    optionsSearch.favorite = favorite;
   }
-  return contact;
+  const results = await contacts.paginate(optionsSearch, {
+    limit,
+    offset,
+    populate: {
+      path: "owner",
+      select: "email",
+    },
+  });
+  return results;
 };
 
-const addContact = async (body) => {
-  const contactList = await parsedContacts();
-  const newContact = {
-    id: uuidv4(),
-    ...body,
-  };
-  contactList.push(newContact);
-  await fs.writeFile(contactsPath, JSON.stringify(contactList, null, 2));
-  return newContact;
+const getContactById = async (userId, contactId) => {
+  const results = await contacts
+    .findById({ contactId, owner: userId })
+    .populate({
+      path: "owner",
+      select: "email",
+    });
+  return results;
 };
 
-const updateContact = async (contactId, body) => {
-  const contactList = await parsedContacts();
-  // let newContact = {};
-  // const newContactList = []
-  // contactList.forEach((element) => {
-  //   if (element.id === contactId) {
-  //     element = { ...element, ...body };
-  //     newContact = { ...element };
-  //   }
-  //   newContactList.push(element);
-  // });
-  const contact = contactList.find(({ id }) => id === contactId);
-  Object.assign(contact, body);
-  await fs.writeFile(contactsPath, JSON.stringify(contactList, null, 2));
-  // return newContact;
-  return contact;
+const removeContact = async (userId, contactId) => {
+  const results = await contacts.findByIdAndRemove({
+    contactId,
+    owner: userId,
+  });
+  return results;
+};
+
+const addContact = async (userId, body) => {
+  const results = await contacts.create({ ...body, owner: userId });
+  return results;
+};
+
+const updateContact = async (userId, contactId, body) => {
+  const result = await contacts.findByIdAndUpdate(
+    { contactId, owner: userId },
+    { ...body },
+    { new: true }
+  );
+  return result;
 };
 
 module.exports = {

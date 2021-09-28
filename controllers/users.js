@@ -1,13 +1,19 @@
-require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const jimp = require("jimp");
 const fs = require("fs/promises");
 const path = require("path");
 const cloudinary = require("cloudinary").v2;
 const { promisify } = require("util");
+
 const Users = require("../model/users");
 const HttpCode = require("../helpers/constants");
+const EmailService = require("../services/email");
+const {
+  CreateSenderSendGrid,
+  CreateSenderNodemailer,
+} = require("../services/email-sender");
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+require("dotenv").config();
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -170,6 +176,63 @@ const saveAvatarUserToCloud = async (req) => {
   return { idCloudAvatar, avatarUrl };
 };
 
+const verify = async (req, res, next) => {
+  // console.log(req.params);
+  try {
+    const user = await Users.findByVerifyTokenEmail(
+      req.params.verificationToken
+    );
+    if (user) {
+      await Users.updateVerifyToken(user.id, true, null);
+      return res.status(HttpCode.OK).json({
+        status: "success",
+        code: HttpCode.OK,
+        message: "Verification successful",
+      });
+    }
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: "error",
+      code: HttpCode.NOT_FOUND,
+      message: "User not found",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const repeatEmailVerification = async (req, res, next) => {
+  try {
+    const user = await Users.findByEmail(req.body.email);
+    if (user) {
+      const { email, verify, verifyToken } = user;
+      if (!verify) {
+        const emailService = new EmailService(
+          process.env.NODE_ENV,
+          new CreateSenderSendGrid()
+        );
+        await emailService.sendVerifyEmail(verifyToken, email);
+        return res.json({
+          status: "success",
+          code: HttpCode.OK,
+          data: {
+            message: "Verification email sent",
+          },
+        });
+      }
+      return res.status(HttpCode.BAD_REQUEST).json({
+        status: `${HttpCode.BAD_REQUEST} Bad Request`,
+        message: "Verification has already been passed",
+      });
+    }
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: `${HttpCode.NOT_FOUND} Not Found`,
+      message: "User not found",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   signup,
   login,
@@ -177,4 +240,6 @@ module.exports = {
   current,
   updateAvatar,
   saveAvatarUser,
+  verify,
+  repeatEmailVerification,
 };

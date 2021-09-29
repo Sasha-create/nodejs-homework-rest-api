@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const jimp = require("jimp");
+// const userId = require("../config/passport");
 const fs = require("fs/promises");
 const path = require("path");
 const cloudinary = require("cloudinary").v2;
@@ -10,10 +11,12 @@ const HttpCode = require("../helpers/constants");
 const EmailService = require("../services/email");
 const {
   CreateSenderSendGrid,
-  CreateSenderNodemailer,
+  // CreateSenderNodemailer,
 } = require("../services/email-sender");
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+
 require("dotenv").config();
+
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -94,8 +97,8 @@ const logout = async (req, res, next) => {
 const current = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const user = await Users.getCurrentUser(userId);
-    console.log(user);
+    // const user = await Users.getCurrentUser(userId);
+    // console.log(user);
     if (user) {
       return res.json({
         status: "success",

@@ -1,9 +1,6 @@
 # Contactbook App
 
-![mangoDB]("./doc/mongodb-png.png")
-![express]("./doc/express-png.png")
-![react]("./doc/REact-png.png")
-![nodeJs]("./doc/nodeJS-png.png")
+![mangoDB](./doc/MREN-stack-1.jpg)
 
 ## MERN stack complete: full stack app</br>
 

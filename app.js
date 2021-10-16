@@ -4,6 +4,8 @@ const cors = require("cors");
 const boolParser = require("express-query-boolean");
 const contactsRouter = require("./routes/contacts");
 const usersRouter = require("./routes/users");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 const app = express();
 
@@ -16,6 +18,7 @@ app.use(express.json());
 app.use(boolParser());
 app.use("/api/users", usersRouter);
 app.use("/api/contacts", contactsRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });

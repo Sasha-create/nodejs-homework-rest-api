@@ -1,31 +1,32 @@
-## GoIT Node.js Course Template Homework
+# Contactbook App
 
-Выполните форк этого репозитория для выполнения домашних заданий (2-6)
-Форк создаст репозиторий на вашем http://github.com
+![mangoDB]("./doc/mongodb-png.png")
+![express]("./doc/express-png.png")
+![react]("./doc/REact-png.png")
+![nodeJs]("./doc/nodeJS-png.png")
 
-Добавьте ментора в коллаборацию
+## MERN stack complete: full stack app</br>
 
-Для каждой домашней работы создавайте свою ветку.
+MERN Web server application was built with front-end, back-end and database components. Completed tasks:
 
-- hw02
-- hw03
-- hw04
-- hw05
-- hw06
+- user registration with email and password
 
-Каждая новая ветка для дз должна делаться с master
+- user registration via google
 
-После того как вы закончили выполнять домашнее задание в своей ветке, необходимо сделать пулл-реквест (PR). Потом добавить ментора для ревью кода. Только после того как ментор заапрувит PR, вы можете выполнить мердж ветки с домашним заданием в мастер.
+- logging in an existing user
 
-Внимательно читайте комментарии ментора. Исправьте замечания и сделайте коммит в ветке с домашним заданием. Изменения подтянуться в PR автоматически после того как вы отправите коммит с исправлениями на github
-После исправления снова добавьте ментора на ревью кода.
+- users email confirmation
 
-- При сдаче домашней работы есть ссылка на PR
-- JS-код чистый и понятный, для форматирования используется Prettier
+- log out of user account
 
-### Команды:
+- get current user information
 
-- `npm start` &mdash; старт сервера в режиме production
-- `npm run start:dev` &mdash; старт сервера в режиме разработки (development)
-- `npm run lint` &mdash; запустить выполнение проверки кода с eslint, необходимо выполнять перед каждым PR и исправлять все ошибки линтера
-- `npm lint:fix` &mdash; та же проверка линтера, но с автоматическими исправлениями простых ошибок
+- create new contacts
+
+### npm commands
+
+@sendgrid/mail | bcrypt | bcryptjs | cloudinary | cors | cross-env | dotenv | eslint-config-prettier |
+eslint-plugin-json | express | express-query-boolean | express-rate-limit | gravatar | helmet |
+http-errors | jimp | joi | jsonwebtoken | mailgen | mongoose | mongoose-paginate-v2 | morgan |
+multer | nanoid | nodemailer | passport | passport-jwt | swagger-ui | swagger-ui-express | util |
+uuid | jest | nodemon | supertest

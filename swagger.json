@@ -1,0 +1,132 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Contacts Demo",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "Gets all users",
+        "description": "Gets all users",
+        "responses": {
+          "200": {
+            "description": "Gets an array of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/current": {
+      "get": {
+        "summary": "Gets a user",
+        "description": "Gets a user",
+        "responses": {
+          "200": {
+            "description": "Gets an array of user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Post a user",
+        "description": "Post a user",
+        "responses": {
+          "204": {
+            "description": "Accept a user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/signup": {
+      "post": {
+        "summary": "Signup a user",
+        "description": "Signup a user",
+        "responses": {
+          "204": {
+            "description": "Accept a user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Login a user",
+        "description": "Login a user",
+        "responses": {
+          "204": {
+            "description": "Accept a user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "summary": "Logout a user",
+        "description": "Logout a user",
+        "responses": {
+          "204": {
+            "description": "Accept a user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}
